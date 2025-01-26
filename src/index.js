@@ -117,14 +117,14 @@ const url = process.env.URL;
         arr.push(...items);
     }
 
-    const sortedArrByPageAndOrder = arr.sort((a, b) => {
+    const sortedArr = arr.sort((a, b) => b.discountDiff - a.discountDiff);
+    const sortedArrByPageAndOrder = sortedArr.sort((a, b) => {
         if (a.page.number === b.page.number) {
             return a.page.order - b.page.order;
         }
 
         return a.page.number - b.page.number;
     });
-    const sortedArr = sortedArrByPageAndOrder.sort((a, b) => b.discountDiff - a.discountDiff);
 
     message('Writing the data to the file...');
     await fs.writeFileSync('data.json', JSON.stringify(sortedArrByPageAndOrder, null, 4));
